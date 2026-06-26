@@ -1,0 +1,39 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@300;400;500;600;700;800&family=Barlow+Condensed:wght@400;600;700;800&display=swap');
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg: #080808;
+  --surface: #0f0f0f;
+  --surface2: #141414;
+  --border: #1c1c1c;
+  --orange: #FF5500;
+  --orange-dark: #CC4400;
+  --blue: #00D4FF;
+  --blue-dark: #0099CC;
+  --gold: #FFB800;
+  --text: #F0F0F0;
+  --text-muted: #666;
+  --green: #22C55E;
+  --red: #EF4444;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Barlow', sans-serif;
+  min-height: 100vh;
+}
+
+h1, h2, h3, h4, h5 {
+  font-family: 'Barlow Condensed', sans-serif;
+  letter-spacing: 0.03em;
+}
+
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--orange); border-radius: 3px; }
+
+.leaflet-container { background: #1a1a1a !important; }
+input, select, textarea { font-family: 'Barlow', sans-serif; }
+button { font-family: 'Barlow Condensed', sans-serif; }
