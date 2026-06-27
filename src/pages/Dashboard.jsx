@@ -4,7 +4,8 @@ import axios from "axios";
 import { useAuth } from "../context/AuthContext";
 import { MapPin, Users, CheckCircle, Award, TrendingUp, Map } from "lucide-react";
 
-const API = "http://localhost:8000";
+const API = import.meta.env.VITE_API_URL || "http://localhost:8000";
+
 
 const BADGES = [
   { id: "first_ride",     emoji: "🏍️", name: "First Ride",        desc: "Started your first route",     condition: s => s.total_routes_started >= 1 },

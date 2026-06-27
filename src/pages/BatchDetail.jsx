@@ -4,7 +4,8 @@ import axios from "axios";
 import { useAuth } from "../context/AuthContext";
 import { ArrowLeft, Users, Calendar, MapPin, Send, Crown, Shield } from "lucide-react";
 
-const API = "http://localhost:8000";
+const API = import.meta.env.VITE_API_URL || "http://localhost:8000";
+
 
 export default function BatchDetail() {
   const { id } = useParams();
