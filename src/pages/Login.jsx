@@ -27,23 +27,24 @@ export default function Login() {
     <div style={{
       minHeight:"100vh",display:"flex",alignItems:"center",
       justifyContent:"center",padding:"1rem",paddingTop:"80px",
-      background:"radial-gradient(ellipse at top,#1a0a00 0%,#0A0A0A 60%)"
+      background:"radial-gradient(ellipse at top,#EDECE6 0%,#F5F4F0 60%)"
     }}>
       <div style={{width:"100%",maxWidth:"420px"}}>
         <div style={{textAlign:"center",marginBottom:"2rem"}}>
           <div style={{fontSize:"3rem",marginBottom:"0.5rem"}}>🏍️</div>
-          <h1 style={{fontFamily:"Rajdhani",fontSize:"2rem",color:"#FF6B00"}}>Welcome Back</h1>
-          <p style={{color:"#888",fontSize:"0.9rem"}}>Log in to continue your journey</p>
+          <h1 style={{fontFamily:"Rajdhani",fontSize:"2rem",color:"#E76F51"}}>Welcome Back</h1>
+          <p style={{color:"#6B6B6B",fontSize:"0.9rem"}}>Log in to continue your journey</p>
         </div>
 
         <div style={{
-          background:"#111",border:"1px solid #222",
-          borderRadius:"16px",padding:"2rem"
+          background:"#FFFFFF",border:"1px solid #E5E1DB",
+          borderRadius:"16px",padding:"2rem",
+          boxShadow:"0 4px 20px rgba(0,0,0,0.06)"
         }}>
           {error && (
-            <div style={{background:"rgba(239,68,68,0.1)",border:"1px solid #EF4444",
+            <div style={{background:"rgba(239,68,68,0.08)",border:"1px solid #EF4444",
               borderRadius:"8px",padding:"0.75rem",marginBottom:"1rem",
-              color:"#EF4444",fontSize:"0.875rem"}}>
+              color:"#DC2626",fontSize:"0.875rem"}}>
               {error}
             </div>
           )}
@@ -54,7 +55,7 @@ export default function Login() {
               {label:"Password",key:"password",type:"password",placeholder:"••••••••"}
             ].map(f => (
               <div key={f.key} style={{marginBottom:"1.25rem"}}>
-                <label style={{display:"block",color:"#ccc",fontSize:"0.875rem",
+                <label style={{display:"block",color:"#1A1A1A",fontSize:"0.875rem",
                   fontWeight:500,marginBottom:"0.5rem"}}>{f.label}</label>
                 <input
                   type={f.type} placeholder={f.placeholder}
@@ -62,18 +63,20 @@ export default function Login() {
                   onChange={e => setForm({...form,[f.key]:e.target.value})}
                   required
                   style={{
-                    width:"100%",background:"#1a1a1a",border:"1px solid #333",
-                    borderRadius:"8px",padding:"0.75rem 1rem",color:"#f5f5f5",
+                    width:"100%",background:"#F8F7F4",border:"1px solid #E5E1DB",
+                    borderRadius:"8px",padding:"0.75rem 1rem",color:"#1A1A1A",
                     fontSize:"0.9rem",outline:"none",transition:"border 0.2s",
                     boxSizing:"border-box"
                   }}
+                  onFocus={e => e.target.style.border = "1px solid #2D6A4F"}
+                  onBlur={e => e.target.style.border = "1px solid #E5E1DB"}
                 />
               </div>
             ))}
 
             <button type="submit" disabled={loading} style={{
               width:"100%",padding:"0.875rem",
-              background:"linear-gradient(135deg,#FF6B00,#CC5500)",
+              background:"linear-gradient(135deg,#E76F51,#C85A3F)",
               border:"none",borderRadius:"8px",color:"white",
               fontSize:"1rem",fontWeight:700,fontFamily:"Rajdhani",
               cursor:"pointer",letterSpacing:"0.05em",marginTop:"0.5rem"
@@ -82,9 +85,9 @@ export default function Login() {
             </button>
           </form>
 
-          <p style={{textAlign:"center",marginTop:"1.5rem",color:"#888",fontSize:"0.875rem"}}>
+          <p style={{textAlign:"center",marginTop:"1.5rem",color:"#6B6B6B",fontSize:"0.875rem"}}>
             New rider?{" "}
-            <Link to="/register" style={{color:"#FF6B00",textDecoration:"none",fontWeight:600}}>
+            <Link to="/register" style={{color:"#E76F51",textDecoration:"none",fontWeight:600}}>
               Create account
             </Link>
           </p>

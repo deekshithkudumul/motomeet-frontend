@@ -7,10 +7,11 @@ import { Search, Filter, MapPin, Clock, Zap } from "lucide-react";
 
 const API = import.meta.env.VITE_API_URL || "http://localhost:8000";
 
-
-
 const DIFFICULTY_COLORS = {
-  Easy: "#22C55E", Moderate: "#FFB800", Hard: "#EF4444", Expert: "#00D4FF"
+  Easy:     { line: "#2D6A4F", badge: "rgba(45,106,79,0.12)",   text: "#2D6A4F", border: "rgba(45,106,79,0.25)"   },
+  Moderate: { line: "#B45309", badge: "rgba(180,83,9,0.12)",    text: "#B45309", border: "rgba(180,83,9,0.25)"    },
+  Hard:     { line: "#DC2626", badge: "rgba(239,68,68,0.12)",   text: "#DC2626", border: "rgba(239,68,68,0.25)"   },
+  Expert:   { line: "#E76F51", badge: "rgba(231,111,81,0.12)",  text: "#E76F51", border: "rgba(231,111,81,0.30)"  },
 };
 
 const DIFFICULTY_ORDER = { Easy: 1, Moderate: 2, Hard: 3, Expert: 4 };
@@ -29,7 +30,7 @@ function createRouteIcon(color) {
     html: `<div style="
       width:12px;height:12px;border-radius:50%;
       background:${color};border:2px solid white;
-      box-shadow:0 0 8px ${color}
+      box-shadow:0 2px 6px rgba(0,0,0,0.25)
     "></div>`,
     iconSize: [12, 12],
     iconAnchor: [6, 6],
@@ -70,37 +71,37 @@ export default function Explore() {
   });
 
   return (
-    <div style={{ height: "100vh", display: "flex", flexDirection: "column", background: "#080808", paddingTop: "60px" }}>
+    <div style={{ height: "100vh", display: "flex", flexDirection: "column", background: "var(--bg)", paddingTop: "60px" }}>
 
       {/* ── Top Bar ── */}
       <div style={{
-        padding: "0.75rem 1.5rem", background: "#0d0d0d",
-        borderBottom: "1px solid #1c1c1c",
+        padding: "0.75rem 1.5rem", background: "var(--surface)",
+        borderBottom: "1px solid var(--border)",
         display: "flex", alignItems: "center", gap: "1rem", flexWrap: "wrap"
       }}>
         <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
-          <MapPin size={16} color="#FF5500" />
-          <span style={{ fontFamily: "Barlow Condensed", fontSize: "1.1rem", fontWeight: 700, color: "#F0F0F0", letterSpacing: "0.05em" }}>
+          <MapPin size={16} color="var(--accent)" />
+          <span style={{ fontSize: "1.1rem", fontWeight: 700, color: "var(--text)", letterSpacing: "0.04em" }}>
             EXPLORE ROUTES
           </span>
           <span style={{
-            background: "rgba(0,212,255,0.1)", color: "#00D4FF",
-            border: "1px solid rgba(0,212,255,0.2)",
+            background: "rgba(45,106,79,0.10)", color: "var(--primary)",
+            border: "1px solid rgba(45,106,79,0.25)",
             borderRadius: "100px", padding: "0.1rem 0.6rem",
-            fontSize: "0.7rem", fontFamily: "Barlow Condensed", fontWeight: 700
+            fontSize: "0.7rem", fontWeight: 700
           }}>{routes.length} ROUTES</span>
         </div>
 
         {/* Search */}
         <div style={{ position: "relative", flex: 1, minWidth: "200px", maxWidth: "320px" }}>
-          <Search size={14} style={{ position: "absolute", left: "10px", top: "50%", transform: "translateY(-50%)", color: "#444" }} />
+          <Search size={14} style={{ position: "absolute", left: "10px", top: "50%", transform: "translateY(-50%)", color: "var(--text-muted)" }} />
           <input
             value={search} onChange={e => setSearch(e.target.value)}
             placeholder="Search routes or states..."
             style={{
-              width: "100%", background: "#111", border: "1px solid #1c1c1c",
+              width: "100%", background: "var(--bg)", border: "1px solid var(--border)",
               borderRadius: "8px", padding: "0.5rem 0.75rem 0.5rem 2rem",
-              color: "#F0F0F0", fontSize: "0.85rem", outline: "none",
+              color: "var(--text)", fontSize: "0.85rem", outline: "none",
               boxSizing: "border-box"
             }}
           />
@@ -108,30 +109,35 @@ export default function Explore() {
 
         {/* Difficulty filter */}
         <div style={{ display: "flex", gap: "0.4rem", flexWrap: "wrap" }}>
-          {["All", "Easy", "Moderate", "Hard", "Expert"].map(d => (
-            <button key={d} onClick={() => setFilterDiff(d)} style={{
-              padding: "0.35rem 0.75rem", borderRadius: "100px",
-              border: filterDiff === d
-                ? `1px solid ${d === "All" ? "#FF5500" : DIFFICULTY_COLORS[d]}`
-                : "1px solid #1c1c1c",
-              background: filterDiff === d
-                ? `${d === "All" ? "#FF5500" : DIFFICULTY_COLORS[d]}15`
-                : "transparent",
-              color: filterDiff === d
-                ? (d === "All" ? "#FF5500" : DIFFICULTY_COLORS[d])
-                : "#555",
-              fontSize: "0.75rem", fontFamily: "Barlow Condensed",
-              fontWeight: 700, letterSpacing: "0.06em", cursor: "pointer"
-            }}>{d.toUpperCase()}</button>
-          ))}
+          {["All", "Easy", "Moderate", "Hard", "Expert"].map(d => {
+            const dc = DIFFICULTY_COLORS[d];
+            const isActive = filterDiff === d;
+            return (
+              <button key={d} onClick={() => setFilterDiff(d)} style={{
+                padding: "0.35rem 0.75rem", borderRadius: "100px",
+                border: isActive
+                  ? `1px solid ${d === "All" ? "var(--primary)" : dc.border}`
+                  : "1px solid var(--border)",
+                background: isActive
+                  ? (d === "All" ? "rgba(45,106,79,0.10)" : dc.badge)
+                  : "transparent",
+                color: isActive
+                  ? (d === "All" ? "var(--primary)" : dc.text)
+                  : "var(--text-muted)",
+                fontSize: "0.75rem", fontWeight: 700,
+                letterSpacing: "0.05em", cursor: "pointer",
+                transition: "all 0.15s"
+              }}>{d.toUpperCase()}</button>
+            );
+          })}
         </div>
 
-        {/* Toggle list on mobile */}
+        {/* Toggle list */}
         <button onClick={() => setShowList(!showList)} style={{
           padding: "0.4rem 0.9rem", borderRadius: "8px",
-          border: "1px solid #1c1c1c", background: "transparent",
-          color: "#666", fontSize: "0.8rem", fontFamily: "Barlow Condensed",
-          cursor: "pointer", marginLeft: "auto"
+          border: "1px solid var(--border)", background: "transparent",
+          color: "var(--text-muted)", fontSize: "0.8rem", fontWeight: 600,
+          cursor: "pointer", marginLeft: "auto", transition: "border-color 0.15s"
         }}>
           {showList ? "HIDE LIST" : "SHOW LIST"}
         </button>
@@ -144,83 +150,86 @@ export default function Explore() {
         {showList && (
           <div style={{
             width: "320px", minWidth: "280px", overflowY: "auto",
-            background: "#0a0a0a", borderRight: "1px solid #1a1a1a",
+            background: "var(--surface)", borderRight: "1px solid var(--border)",
           }}>
             {loading ? (
-              <div style={{ padding: "2rem", textAlign: "center", color: "#444" }}>
+              <div style={{ padding: "2rem", textAlign: "center", color: "var(--text-muted)" }}>
                 <div style={{ fontSize: "2rem", marginBottom: "0.5rem" }}>🏍️</div>
                 Loading routes...
               </div>
             ) : filtered.length === 0 ? (
-              <div style={{ padding: "2rem", textAlign: "center", color: "#444" }}>No routes found</div>
+              <div style={{ padding: "2rem", textAlign: "center", color: "var(--text-muted)" }}>No routes found</div>
             ) : (
-              filtered.map(route => (
-                <div key={route.id}
-                  onClick={() => setSelected(selected?.id === route.id ? null : route)}
-                  style={{
-                    padding: "1rem 1.25rem", cursor: "pointer",
-                    borderBottom: "1px solid #111", transition: "all 0.2s",
-                    background: selected?.id === route.id ? "rgba(0,212,255,0.05)" : "transparent",
-                    borderLeft: selected?.id === route.id ? "3px solid #00D4FF" : "3px solid transparent"
-                  }}
-                >
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "0.5rem" }}>
-                    <h3 style={{
-                      fontFamily: "Barlow Condensed", fontSize: "1rem", fontWeight: 700,
-                      color: selected?.id === route.id ? "#00D4FF" : "#D0D0D0",
-                      letterSpacing: "0.02em", lineHeight: 1.2
-                    }}>{route.name}</h3>
-                    <span style={{
-                      background: DIFFICULTY_COLORS[route.difficulty] + "18",
-                      color: DIFFICULTY_COLORS[route.difficulty],
-                      border: `1px solid ${DIFFICULTY_COLORS[route.difficulty]}35`,
-                      padding: "0.15rem 0.5rem", borderRadius: "100px",
-                      fontSize: "0.65rem", fontFamily: "Barlow Condensed",
-                      fontWeight: 700, whiteSpace: "nowrap", marginLeft: "0.5rem"
-                    }}>{route.difficulty}</span>
+              filtered.map(route => {
+                const dc = DIFFICULTY_COLORS[route.difficulty];
+                const isSelected = selected?.id === route.id;
+                return (
+                  <div key={route.id}
+                    onClick={() => setSelected(isSelected ? null : route)}
+                    style={{
+                      padding: "1rem 1.25rem", cursor: "pointer",
+                      borderBottom: "1px solid var(--border)", transition: "all 0.2s",
+                      background: isSelected ? "rgba(45,106,79,0.05)" : "transparent",
+                      borderLeft: isSelected ? "3px solid var(--primary)" : "3px solid transparent"
+                    }}
+                  >
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "0.5rem" }}>
+                      <h3 style={{
+                        fontSize: "1rem", fontWeight: 700,
+                        color: isSelected ? "var(--primary)" : "var(--text)",
+                        lineHeight: 1.2
+                      }}>{route.name}</h3>
+                      <span style={{
+                        background: dc.badge, color: dc.text,
+                        border: `1px solid ${dc.border}`,
+                        padding: "0.15rem 0.5rem", borderRadius: "100px",
+                        fontSize: "0.65rem", fontWeight: 700,
+                        whiteSpace: "nowrap", marginLeft: "0.5rem"
+                      }}>{route.difficulty}</span>
+                    </div>
+
+                    <p style={{ color: "var(--text-muted)", fontSize: "0.72rem", marginBottom: "0.6rem", letterSpacing: "0.02em" }}>
+                      📍 {route.states}
+                    </p>
+
+                    <div style={{ display: "flex", gap: "1.25rem" }}>
+                      <div style={{ display: "flex", alignItems: "center", gap: "0.3rem" }}>
+                        <MapPin size={11} color="var(--accent)" />
+                        <span style={{ color: "var(--primary)", fontSize: "0.9rem", fontWeight: 700 }}>
+                          {route.distance_km} km
+                        </span>
+                      </div>
+                      <div style={{ display: "flex", alignItems: "center", gap: "0.3rem" }}>
+                        <Clock size={11} color="#B45309" />
+                        <span style={{ color: "#B45309", fontSize: "0.9rem", fontWeight: 700 }}>
+                          {route.duration_days}d
+                        </span>
+                      </div>
+                      <div style={{ display: "flex", alignItems: "center", gap: "0.3rem" }}>
+                        <Zap size={11} color="var(--text-muted)" />
+                        <span style={{ color: "var(--text-muted)", fontSize: "0.75rem" }}>
+                          {route.elevation_gain}m
+                        </span>
+                      </div>
+                    </div>
+
+                    {isSelected && (
+                      <button
+                        onClick={e => { e.stopPropagation(); navigate(`/route/${route.slug}`); }}
+                        style={{
+                          marginTop: "0.75rem", width: "100%",
+                          padding: "0.5rem", borderRadius: "8px",
+                          background: "var(--accent)",
+                          border: "none", color: "white",
+                          fontWeight: 700, fontSize: "0.85rem",
+                          letterSpacing: "0.06em", cursor: "pointer",
+                          transition: "background 0.2s"
+                        }}
+                      >VIEW FULL ROUTE →</button>
+                    )}
                   </div>
-
-                  <p style={{ color: "#444", fontSize: "0.72rem", marginBottom: "0.6rem", letterSpacing: "0.04em" }}>
-                    📍 {route.states}
-                  </p>
-
-                  <div style={{ display: "flex", gap: "1.25rem" }}>
-                    <div style={{ display: "flex", alignItems: "center", gap: "0.3rem" }}>
-                      <MapPin size={11} color="#FF5500" />
-                      <span style={{ color: "#00D4FF", fontFamily: "Barlow Condensed", fontSize: "0.9rem", fontWeight: 700 }}>
-                        {route.distance_km} km
-                      </span>
-                    </div>
-                    <div style={{ display: "flex", alignItems: "center", gap: "0.3rem" }}>
-                      <Clock size={11} color="#FFB800" />
-                      <span style={{ color: "#FFB800", fontFamily: "Barlow Condensed", fontSize: "0.9rem", fontWeight: 700 }}>
-                        {route.duration_days}d
-                      </span>
-                    </div>
-                    <div style={{ display: "flex", alignItems: "center", gap: "0.3rem" }}>
-                      <Zap size={11} color="#888" />
-                      <span style={{ color: "#555", fontSize: "0.75rem" }}>
-                        {route.elevation_gain}m
-                      </span>
-                    </div>
-                  </div>
-
-                  {selected?.id === route.id && (
-                    <button
-                      onClick={e => { e.stopPropagation(); navigate(`/route/${route.slug}`); }}
-                      style={{
-                        marginTop: "0.75rem", width: "100%",
-                        padding: "0.5rem", borderRadius: "8px",
-                        background: "linear-gradient(135deg,#FF5500,#CC4400)",
-                        border: "none", color: "white",
-                        fontFamily: "Barlow Condensed", fontWeight: 700,
-                        fontSize: "0.85rem", letterSpacing: "0.08em",
-                        cursor: "pointer"
-                      }}
-                    >VIEW FULL ROUTE →</button>
-                  )}
-                </div>
-              ))
+                );
+              })
             )}
           </div>
         )}
@@ -233,22 +242,23 @@ export default function Explore() {
             style={{ width: "100%", height: "100%" }}
             zoomControl={false}
           >
+            {/* Natural OSM tiles */}
             <TileLayer
-              url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
-              attribution='&copy; <a href="https://carto.com/">CARTO</a>'
+              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             />
 
             {filtered.map(route => {
               const coords = route.waypoints?.map(w => [w.lat, w.lng]) || [];
               const isSelected = selected?.id === route.id;
-              const color = DIFFICULTY_COLORS[route.difficulty];
+              const dc = DIFFICULTY_COLORS[route.difficulty];
 
               return (
                 <div key={route.id}>
                   <Polyline
                     positions={coords}
                     pathOptions={{
-                      color: isSelected ? color : color + "80",
+                      color: dc.line,
                       weight: isSelected ? 4 : 2,
                       opacity: isSelected ? 1 : 0.5,
                     }}
@@ -256,12 +266,11 @@ export default function Explore() {
                       click: () => setSelected(selected?.id === route.id ? null : route)
                     }}
                   />
-                  {/* Start marker */}
                   {coords[0] && (
-                    <Marker position={coords[0]} icon={createRouteIcon(color)}>
+                    <Marker position={coords[0]} icon={createRouteIcon(dc.line)}>
                       <Popup>
-                        <div style={{ fontFamily: "Barlow Condensed", minWidth: "160px" }}>
-                          <strong>{route.name}</strong><br />
+                        <div style={{ fontFamily: "var(--font-sans)", minWidth: "160px" }}>
+                          <strong style={{ color: "var(--text)" }}>{route.name}</strong><br />
                           🚩 Start: {route.start_point}<br />
                           🏁 End: {route.end_point}<br />
                           📏 {route.distance_km} km · {route.duration_days} days
@@ -281,37 +290,37 @@ export default function Explore() {
             <div style={{
               position: "absolute", bottom: "1.5rem", left: "50%",
               transform: "translateX(-50%)", zIndex: 1000,
-              background: "rgba(10,10,10,0.95)", backdropFilter: "blur(12px)",
-              border: `1px solid ${DIFFICULTY_COLORS[selected.difficulty]}40`,
+              background: "var(--surface)", backdropFilter: "blur(12px)",
+              border: `1px solid ${DIFFICULTY_COLORS[selected.difficulty].border}`,
               borderRadius: "14px", padding: "1.25rem 1.75rem",
               minWidth: "320px", maxWidth: "500px",
-              boxShadow: `0 8px 32px ${DIFFICULTY_COLORS[selected.difficulty]}20`
+              boxShadow: "var(--shadow-lg)"
             }}>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "0.75rem" }}>
                 <div>
-                  <h3 style={{ fontFamily: "Barlow Condensed", fontSize: "1.3rem", fontWeight: 700, color: "#F0F0F0", letterSpacing: "0.03em" }}>
+                  <h3 style={{ fontSize: "1.2rem", fontWeight: 700, color: "var(--text)", letterSpacing: "0.02em" }}>
                     {selected.name}
                   </h3>
-                  <p style={{ color: "#444", fontSize: "0.75rem", marginTop: "0.2rem" }}>📍 {selected.states}</p>
+                  <p style={{ color: "var(--text-muted)", fontSize: "0.75rem", marginTop: "0.2rem" }}>📍 {selected.states}</p>
                 </div>
                 <span style={{
-                  background: DIFFICULTY_COLORS[selected.difficulty] + "20",
-                  color: DIFFICULTY_COLORS[selected.difficulty],
-                  border: `1px solid ${DIFFICULTY_COLORS[selected.difficulty]}40`,
+                  background: DIFFICULTY_COLORS[selected.difficulty].badge,
+                  color: DIFFICULTY_COLORS[selected.difficulty].text,
+                  border: `1px solid ${DIFFICULTY_COLORS[selected.difficulty].border}`,
                   padding: "0.25rem 0.75rem", borderRadius: "100px",
-                  fontSize: "0.72rem", fontFamily: "Barlow Condensed", fontWeight: 700
+                  fontSize: "0.72rem", fontWeight: 700
                 }}>{selected.difficulty.toUpperCase()}</span>
               </div>
 
               <div style={{ display: "flex", gap: "2rem", marginBottom: "1rem" }}>
                 {[
-                  { label: "DISTANCE", value: `${selected.distance_km} km`, color: "#00D4FF" },
-                  { label: "DURATION", value: `${selected.duration_days} Days`, color: "#FFB800" },
-                  { label: "ELEVATION", value: `${selected.elevation_gain}m`, color: "#22C55E" },
+                  { label: "DISTANCE",  value: `${selected.distance_km} km`,    color: "var(--primary)" },
+                  { label: "DURATION",  value: `${selected.duration_days} Days`, color: "#B45309"        },
+                  { label: "ELEVATION", value: `${selected.elevation_gain}m`,    color: "var(--accent)"  },
                 ].map(s => (
                   <div key={s.label}>
-                    <div style={{ fontFamily: "Barlow Condensed", fontSize: "1.1rem", fontWeight: 700, color: s.color }}>{s.value}</div>
-                    <div style={{ color: "#444", fontSize: "0.65rem", letterSpacing: "0.08em" }}>{s.label}</div>
+                    <div style={{ fontSize: "1.1rem", fontWeight: 700, color: s.color }}>{s.value}</div>
+                    <div style={{ color: "var(--text-muted)", fontSize: "0.65rem", letterSpacing: "0.08em" }}>{s.label}</div>
                   </div>
                 ))}
               </div>
@@ -321,17 +330,18 @@ export default function Explore() {
                   onClick={() => navigate(`/route/${selected.slug}`)}
                   style={{
                     flex: 1, padding: "0.65rem",
-                    background: "linear-gradient(135deg,#FF5500,#CC4400)",
+                    background: "var(--accent)",
                     border: "none", borderRadius: "8px", color: "white",
-                    fontFamily: "Barlow Condensed", fontWeight: 700,
-                    fontSize: "0.9rem", letterSpacing: "0.08em", cursor: "pointer"
+                    fontWeight: 700, fontSize: "0.9rem",
+                    letterSpacing: "0.06em", cursor: "pointer",
+                    transition: "background 0.2s"
                   }}>VIEW ROUTE →</button>
                 <button
                   onClick={() => setSelected(null)}
                   style={{
                     padding: "0.65rem 1rem", background: "transparent",
-                    border: "1px solid #1c1c1c", borderRadius: "8px",
-                    color: "#555", cursor: "pointer", fontSize: "0.85rem"
+                    border: "1px solid var(--border)", borderRadius: "8px",
+                    color: "var(--text-muted)", cursor: "pointer", fontSize: "0.85rem"
                   }}>✕</button>
               </div>
             </div>
@@ -340,16 +350,17 @@ export default function Explore() {
           {/* Map legend */}
           <div style={{
             position: "absolute", top: "1rem", right: "1rem", zIndex: 1000,
-            background: "rgba(10,10,10,0.9)", backdropFilter: "blur(8px)",
-            border: "1px solid #1c1c1c", borderRadius: "10px", padding: "0.75rem 1rem"
+            background: "var(--surface)", backdropFilter: "blur(8px)",
+            border: "1px solid var(--border)", borderRadius: "10px",
+            padding: "0.75rem 1rem", boxShadow: "var(--shadow-sm)"
           }}>
-            <div style={{ color: "#444", fontSize: "0.65rem", fontFamily: "Barlow Condensed", letterSpacing: "0.1em", marginBottom: "0.5rem" }}>
+            <div style={{ color: "var(--text-muted)", fontSize: "0.65rem", fontWeight: 700, letterSpacing: "0.1em", marginBottom: "0.5rem" }}>
               DIFFICULTY
             </div>
-            {Object.entries(DIFFICULTY_COLORS).map(([d, c]) => (
+            {Object.entries(DIFFICULTY_COLORS).map(([d, dc]) => (
               <div key={d} style={{ display: "flex", alignItems: "center", gap: "0.5rem", marginBottom: "0.3rem" }}>
-                <div style={{ width: "24px", height: "3px", background: c, borderRadius: "2px" }} />
-                <span style={{ color: c, fontSize: "0.72rem", fontFamily: "Barlow Condensed", fontWeight: 700 }}>{d}</span>
+                <div style={{ width: "24px", height: "3px", background: dc.line, borderRadius: "2px" }} />
+                <span style={{ color: dc.text, fontSize: "0.72rem", fontWeight: 700 }}>{d}</span>
               </div>
             ))}
           </div>

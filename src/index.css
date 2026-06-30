@@ -3,26 +3,32 @@
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
 :root {
-  --bg: #080808;
-  --surface: #0f0f0f;
-  --surface2: #141414;
-  --border: #1c1c1c;
-  --orange: #FF5500;
-  --orange-dark: #CC4400;
-  --blue: #00D4FF;
-  --blue-dark: #0099CC;
-  --gold: #FFB800;
-  --text: #F0F0F0;
-  --text-muted: #666;
-  --green: #22C55E;
-  --red: #EF4444;
+  --bg-primary: #F5F4F0;
+  --bg-secondary: #EDECEA;
+  --bg-card: #FFFFFF;
+  --color-primary: #2D6A4F;
+  --color-primary-hover: #245A42;
+  --color-accent: #E76F51;
+  --color-accent-hover: #D4603F;
+  --text-primary: #1A1A1A;
+  --text-secondary: #555550;
+  --text-muted: #888882;
+  --border: #D8D6D0;
+  --shadow: rgba(0, 0, 0, 0.08);
+  --radius: 8px;
+
+  /* Aliases used by App.css (Vite boilerplate-derived selectors) */
+  --accent: #2D6A4F;
+  --accent-bg: rgba(45, 106, 79, 0.1);
+  --accent-border: #2D6A4F;
+  --text-h: #1A1A1A;
+  --social-bg: #EDECEA;
 }
 
 body {
-  background: var(--bg);
-  color: var(--text);
-  font-family: 'Barlow', sans-serif;
-  min-height: 100vh;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: 'Barlow Condensed', sans-serif;
 }
 
 h1, h2, h3, h4, h5 {
@@ -31,9 +37,9 @@ h1, h2, h3, h4, h5 {
 }
 
 ::-webkit-scrollbar { width: 5px; }
-::-webkit-scrollbar-track { background: var(--bg); }
-::-webkit-scrollbar-thumb { background: var(--orange); border-radius: 3px; }
+::-webkit-scrollbar-track { background: var(--bg-primary); }
+::-webkit-scrollbar-thumb { background: var(--color-primary); border-radius: 3px; }
 
-.leaflet-container { background: #1a1a1a !important; }
+.leaflet-container { background: #e8e0d8 !important; }
 input, select, textarea { font-family: 'Barlow', sans-serif; }
 button { font-family: 'Barlow Condensed', sans-serif; }

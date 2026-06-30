@@ -26,8 +26,8 @@ export default function Register() {
   };
 
   const inputStyle = {
-    width:"100%",background:"#1a1a1a",border:"1px solid #333",
-    borderRadius:"8px",padding:"0.75rem 1rem",color:"#f5f5f5",
+    width:"100%",background:"#F8F7F4",border:"1px solid #E5E1DB",
+    borderRadius:"8px",padding:"0.75rem 1rem",color:"#1A1A1A",
     fontSize:"0.9rem",outline:"none",boxSizing:"border-box"
   };
 
@@ -35,20 +35,21 @@ export default function Register() {
     <div style={{
       minHeight:"100vh",display:"flex",alignItems:"center",
       justifyContent:"center",padding:"1rem",paddingTop:"80px",
-      background:"radial-gradient(ellipse at top,#1a0a00 0%,#0A0A0A 60%)"
+      background:"radial-gradient(ellipse at top,#EDECE6 0%,#F5F4F0 60%)"
     }}>
       <div style={{width:"100%",maxWidth:"480px"}}>
         <div style={{textAlign:"center",marginBottom:"2rem"}}>
           <div style={{fontSize:"3rem",marginBottom:"0.5rem"}}>🏍️</div>
-          <h1 style={{fontFamily:"Rajdhani",fontSize:"2rem",color:"#FF6B00"}}>Join MotoMeet</h1>
-          <p style={{color:"#888",fontSize:"0.9rem"}}>Start your riding journey</p>
+          <h1 style={{fontFamily:"Rajdhani",fontSize:"2rem",color:"#E76F51"}}>Join MotoMeet</h1>
+          <p style={{color:"#6B6B6B",fontSize:"0.9rem"}}>Start your riding journey</p>
         </div>
 
-        <div style={{background:"#111",border:"1px solid #222",borderRadius:"16px",padding:"2rem"}}>
+        <div style={{background:"#FFFFFF",border:"1px solid #E5E1DB",borderRadius:"16px",padding:"2rem",
+          boxShadow:"0 4px 20px rgba(0,0,0,0.06)"}}>
           {error && (
-            <div style={{background:"rgba(239,68,68,0.1)",border:"1px solid #EF4444",
+            <div style={{background:"rgba(239,68,68,0.08)",border:"1px solid #EF4444",
               borderRadius:"8px",padding:"0.75rem",marginBottom:"1rem",
-              color:"#EF4444",fontSize:"0.875rem"}}>{error}</div>
+              color:"#DC2626",fontSize:"0.875rem"}}>{error}</div>
           )}
 
           <form onSubmit={handleSubmit}>
@@ -61,7 +62,7 @@ export default function Register() {
                 {label:"City",key:"city",type:"text",placeholder:"Your city",span:1},
               ].map(f => (
                 <div key={f.key} style={{gridColumn:`span ${f.span}`,marginBottom:"0.25rem"}}>
-                  <label style={{display:"block",color:"#ccc",fontSize:"0.875rem",
+                  <label style={{display:"block",color:"#1A1A1A",fontSize:"0.875rem",
                     fontWeight:500,marginBottom:"0.5rem"}}>{f.label}</label>
                   <input
                     type={f.type} placeholder={f.placeholder}
@@ -69,12 +70,14 @@ export default function Register() {
                     onChange={e => setForm({...form,[f.key]:e.target.value})}
                     required={["name","email","password"].includes(f.key)}
                     style={inputStyle}
+                    onFocus={e => e.target.style.border = "1px solid #2D6A4F"}
+                    onBlur={e => e.target.style.border = "1px solid #E5E1DB"}
                   />
                 </div>
               ))}
 
               <div style={{gridColumn:"span 2",marginBottom:"0.25rem"}}>
-                <label style={{display:"block",color:"#ccc",fontSize:"0.875rem",
+                <label style={{display:"block",color:"#1A1A1A",fontSize:"0.875rem",
                   fontWeight:500,marginBottom:"0.5rem"}}>Experience Level</label>
                 <select value={form.experience}
                   onChange={e => setForm({...form,experience:e.target.value})}
@@ -88,7 +91,7 @@ export default function Register() {
 
             <button type="submit" disabled={loading} style={{
               width:"100%",padding:"0.875rem",marginTop:"1rem",
-              background:"linear-gradient(135deg,#FF6B00,#CC5500)",
+              background:"linear-gradient(135deg,#E76F51,#C85A3F)",
               border:"none",borderRadius:"8px",color:"white",
               fontSize:"1rem",fontWeight:700,fontFamily:"Rajdhani",
               cursor:"pointer",letterSpacing:"0.05em"
@@ -97,9 +100,9 @@ export default function Register() {
             </button>
           </form>
 
-          <p style={{textAlign:"center",marginTop:"1.5rem",color:"#888",fontSize:"0.875rem"}}>
+          <p style={{textAlign:"center",marginTop:"1.5rem",color:"#6B6B6B",fontSize:"0.875rem"}}>
             Already a rider?{" "}
-            <Link to="/login" style={{color:"#FF6B00",textDecoration:"none",fontWeight:600}}>
+            <Link to="/login" style={{color:"#E76F51",textDecoration:"none",fontWeight:600}}>
               Log in
             </Link>
           </p>

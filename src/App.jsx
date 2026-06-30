@@ -14,10 +14,10 @@ import Navbar from "./components/Navbar";
 function PrivateRoute({ children }) {
   const { user, loading } = useAuth();
   if (loading) return (
-    <div style={{display:"flex",alignItems:"center",justifyContent:"center",height:"100vh",background:"#0A0A0A"}}>
+    <div style={{display:"flex",alignItems:"center",justifyContent:"center",height:"100vh",background:"#F5F4F0"}}>
       <div style={{textAlign:"center"}}>
         <div style={{fontSize:"3rem"}}>🏍️</div>
-        <p style={{color:"#FF6B00",fontFamily:"Rajdhani",fontSize:"1.2rem",marginTop:"1rem"}}>Loading MotoMeet...</p>
+        <p style={{color:"#E76F51",fontFamily:"Rajdhani",fontSize:"1.2rem",marginTop:"1rem"}}>Loading MotoMeet...</p>
       </div>
     </div>
   );
